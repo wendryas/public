@@ -60,12 +60,12 @@ const RecoverPassword = () => {
   };
 
   return (
-    <main className="bg-primary flex items-center flex-col h-full justify-center">
+    <main className="bg-primary flex items-center flex-col h-screen justify-center">
         {isLoading ? (
           <Spin fullscreen={true} indicator={ <LoadingOutlined style={{ fontSize: 48 }} /> } />
         ) : (
         <>
-          <Image src={"src/assets/logotipo-frisa.png"} width={200} preview={false} />
+          <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
           <div className="flex bg-secundary rounded-2xl p-10 w-4/5 lg:w-2/5 justify-center items-center flex-col">
             <Typography.Title level={2}>Nova Senha</Typography.Title>
             <span className="text-xs mb-2">Digite sua nova senha e confirme para acessar novamente o sistema</span>

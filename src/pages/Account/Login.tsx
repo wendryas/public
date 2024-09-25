@@ -7,8 +7,7 @@ import { useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 
 export default function Login () {
-    const navigate = useNavigate()
-
+  const navigate = useNavigate();
   const [form] = Form.useForm<LoginParams>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,12 +43,12 @@ export default function Login () {
     }
 
     return (
-      <main className="bg-primary flex items-center flex-col h-full justify-center">
+      <main className="bg-primary flex items-center flex-col h-screen justify-center">
         {isLoading ? (
           <Spin fullscreen={true} indicator={ <LoadingOutlined style={{ fontSize: 48 }} /> } />
         ) : (
         <>
-          <Image src={"src/assets/logotipo-frisa.png"} width={200} preview={false} />
+          <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
           <div className="flex bg-secundary rounded-2xl p-10 w-4/5 lg:w-2/5 justify-center items-center flex-col">
             <Typography.Title level={2}>Login</Typography.Title>
               <Form form={form} onFinish={onSubmit} layout="vertical" className="w-2/3">

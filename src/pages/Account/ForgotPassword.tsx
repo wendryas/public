@@ -22,8 +22,8 @@ export default function ForgotPassword () {
     }
 
     return (
-        <main className="bg-primary flex items-center flex-col h-full justify-center">
-            <Image src={"src/assets/logotipo-frisa.png"} width={200} preview={false} />
+        <main className="bg-primary flex items-center flex-col h-screen justify-center">
+            <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
             <div className="flex bg-secundary rounded-2xl p-10 w-4/5 lg:w-2/5 justify-center items-center flex-col">
             <Title level={2}>Esqueci a senha</Title>
             { isEmailSent ? (
