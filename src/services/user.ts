@@ -1,24 +1,23 @@
 import db from "src/firebase/firestore";
 import {
-  collection as dbCol,
+  collection,
   getDoc,
   doc,
   addDoc,
   query,
   where,
-  getDocs,
+  getDocs
 } from "firebase/firestore";
 import { User } from "src/types/user";
 
 const collectionName = "users";
-const collection = dbCol(db, collectionName);
 
 export function createUser(data: Omit<User, "id">) {
-  return addDoc(collection, data);
+  return addDoc(collection(db, collectionName), data);
 }
 
 export async function getUserByEmail(email: string) {
-  const q = query(dbCol(db, collectionName), where("email", "==", email));
+  const q = query(collection(db, collectionName), where("email", "==", email));
   const snapshot = await getDocs(q);
 
   const [doc] = snapshot.docs;
