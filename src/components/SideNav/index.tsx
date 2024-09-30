@@ -67,8 +67,8 @@ export default function SideNav () {
                             <UserOutlined className="mr-2" />
                             <span>Usuário</span>
                         </div>
-                        <div className="cursor-pointer" onClick={() => handleLogOut()}>
-                            <span className="mr-2" >sair</span>
+                        <div className="cursor-pointer text-gray-900" onClick={() => handleLogOut()}>
+                            <span className="mr-2">Sair</span>
                             <LogoutOutlined/>
                         </div>
                     </div>
