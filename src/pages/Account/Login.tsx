@@ -75,9 +75,9 @@ export default function Login () {
               <div className="text-xs mt-5 text-center">
                 <span>Você não tem uma conta?
                   <br/>
-                  <Typography.Link href="/register">
+                  <p onClick={() => navigate('/register')} className="text-blue-600 cursor-pointer">
                   Clique aqui para se cadastrar!
-                  </Typography.Link>
+                  </p>
                 </span>
               </div>
           </div>
