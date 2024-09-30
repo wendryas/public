@@ -10,20 +10,21 @@ import {
     LogoutOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { auth } from "src/config/firebase";
 
 export default function SideNav () {
     const navigate = useNavigate()
 
     function handleLogOut() {
-        console.log('logout')
+        auth.signOut();
         navigate('/login')
-      }
+    }
 
     const menuItems = [
         {
             Icon: HomeFilled,
             label: 'Home',
-            action: () => console.log('home')
+            action: () => navigate('/dashboard')
         },
         {
             Icon: FormOutlined,
@@ -47,32 +48,32 @@ export default function SideNav () {
         },
     ]
     return (
-        <div style={{ backgroundColor: '#B1101E', display: 'flex', alignItems: 'center', flexDirection: 'column', height: '100%', padding: 10}}>
-                <Image src={"src/assets/logotipo-frisa.png"} width={200} preview={false} />
-                <div style={{ width: '100%', height: '80%'}}>
+        <div className="bg-primary flex align-center flex-col h-full p-3">
+                <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
+                <div className="w-full h-[80%] flex flex-col gap-4">
                 {menuItems.map(item => {
                     return (
-                        <div style={{ display: 'flex', color: 'white', padding: 5, fontSize: 14}} onClick={() => item.action}>
+                        <div className="flex cursor-pointer text-white" onClick={() => item.action}>
                             <item.Icon />
-                            <span style={{width: '90%', margin: 10}}>{item.label}</span>
-                            <RightOutlined />
+                            <span className="w-[80%] m-2">{item.label}</span>
+                            <RightOutlined className="text-sm"/>
                          </div>
                     )
                 })}
                 </div>
-                <div style={{ color: 'white', display: 'flex', flexDirection: 'column', width: '100%', fontSize: 14}}>
-                    <div style={{ marginBottom: 5, display: 'flex'}}>
-                        <div style={{ width: 150}}>
-                            <UserOutlined  style={{ marginRight: 10}} />
+                <div className="flex text-white flex-col w-full">
+                    <div className="flex mb-2">
+                        <div className="w-[150px]">
+                            <UserOutlined className="mr-2" />
                             <span>Usuário</span>
                         </div>
-                        <div style={{ color: 'black'}}>
-                            <span style={{ marginRight: 10}} onClick={() => handleLogOut}>sair</span>
-                            <LogoutOutlined onClick={() => handleLogOut} />
+                        <div className="cursor-pointer" onClick={() => handleLogOut()}>
+                            <span className="mr-2" >sair</span>
+                            <LogoutOutlined/>
                         </div>
                     </div>
                     <div style={{ display: 'flex'}}>
-                        <div style={{ width: 10, height: 10, backgroundColor: 'green', borderRadius: '100%', marginRight: 10, alignSelf: 'center'}}></div>
+                        <div className="h-4 w-4 rounded-full self-center bg-green-700 mr-2"/>
                         <span>Online</span>
                     </div>
                 </div>
