@@ -9,7 +9,7 @@ export function AuthRoutes() {
     <Routes>
       <Route path="login" Component={Login} />
       <Route path="forgot-password" Component={ForgotPassword} />
-      <Route path="reset-password" Component={RecoverPassword} />
+      <Route path="recover-password" Component={RecoverPassword} />
       <Route path="register" Component={Register} />
       <Route path="*" Component={Login} />
     </Routes>
