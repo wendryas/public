@@ -1,4 +1,4 @@
-import { Image } from "antd";
+import { Image, Avatar } from "antd";
 import {
     HomeFilled,
     RightOutlined,
@@ -11,9 +11,17 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { auth } from "src/config/firebase";
+import { useEffect, useState } from "react";
+import useUserStore from "src/stores/user";
 
 export default function SideNav () {
     const navigate = useNavigate()
+    const [isOnline, setIsOnline] = useState(false)
+    const { user } = useUserStore()
+
+    useEffect(() => {
+        setIsOnline(true)
+    }, [])
 
     function handleLogOut() {
         auth.signOut();
@@ -64,8 +72,8 @@ export default function SideNav () {
                 <div className="flex text-white flex-col w-full">
                     <div className="flex mb-2">
                         <div className="w-[150px]">
-                            <UserOutlined className="mr-2" />
-                            <span>Usuário</span>
+                            <Avatar size="small" icon={<UserOutlined/>} className="mr-2"></Avatar>
+                            <span>{user?.name.split(' ')[0]}</span>
                         </div>
                         <div className="cursor-pointer text-gray-900" onClick={() => handleLogOut()}>
                             <span className="mr-2">Sair</span>
@@ -73,8 +81,8 @@ export default function SideNav () {
                         </div>
                     </div>
                     <div style={{ display: 'flex'}}>
-                        <div className="h-4 w-4 rounded-full self-center bg-green-700 mr-2"/>
-                        <span>Online</span>
+                        <div className={`h-4 w-4 rounded-full self-center ml-1 mr-2 ${isOnline ? 'bg-green-700' : 'bg-[#0000004d]'}`}/>
+                        <span>{isOnline ? 'Online' : 'Offline'}</span>
                     </div>
                 </div>
         </div>
