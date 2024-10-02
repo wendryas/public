@@ -4,11 +4,9 @@ import {
   verifyPassworRecoveryCode,
   resetPassword,
 } from "src/firebase/auth";
-import { Button, Form, Input, Spin, Typography, Image } from "antd";
+import { Button, Form, Input, Spin, Image } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import useAuthStore from "src/stores/auth";
-import { getUserByEmail } from "src/services/user";
-import { User } from "src/types/user";
 
 interface RecoverPasswordFields {
   password: string;
@@ -19,20 +17,16 @@ const RecoverPassword = () => {
   const [form] = Form.useForm<RecoverPasswordFields>();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(useLocation().search);
   const code = queryParams.get("oobCode") as string;
-  console.log(userName)
 
   useEffect(() => {
     async function checkCodeValidation() {
       try {
         const userEmail = await verifyPassworRecoveryCode(code);
-        const { name } = (await getUserByEmail(userEmail)) as User;
-        setUserName(name);
         setEmail(userEmail);
       } catch (error) {
         alert("O link de redefinição expirou! Tente utilizar outro link.");
@@ -40,7 +34,6 @@ const RecoverPassword = () => {
     }
 
     checkCodeValidation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (params: RecoverPasswordFields) => {
@@ -67,7 +60,7 @@ const RecoverPassword = () => {
         <>
           <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
           <div className="flex bg-secundary rounded-2xl p-10 w-4/5 lg:w-2/5 justify-center items-center flex-col">
-            <Typography.Title level={2}>Nova Senha</Typography.Title>
+          <h1 className="font-semibold text-3xl">Nova Senha</h1>
             <span className="text-xs mb-2">Digite sua nova senha e confirme para acessar novamente o sistema</span>
               <Form form={form} onFinish={onSubmit} layout="vertical" className="w-2/3">
                   <Form.Item
