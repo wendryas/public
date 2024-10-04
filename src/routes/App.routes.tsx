@@ -49,7 +49,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" Component={BaseLayout}>,
-        <Route index path="dashboard" Component={Dashboard} />
+        <Route index Component={Dashboard} />
         <Route path="*" Component={Dashboard} />
       </Route>
     </Routes>

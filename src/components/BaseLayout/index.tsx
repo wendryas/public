@@ -6,10 +6,10 @@ export default function BaseLayout () {
         <>
             <div className="w-full min-h-screen h-full flex flex-col bg-bgDefault">
                 <div className="flex flex-grow overflow-hidden">
-                    <div className="flex">
+                    <div className="hidden lg:flex">
                         <SideNav />
                     </div>
-                    <div className="flex-grow overflow-auto px-4 pt-6">
+                    <div className="flex-grow overflow-auto">
                         <Outlet />
                     </div>
                 </div>

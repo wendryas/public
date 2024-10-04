@@ -11,35 +11,35 @@ export default function Login () {
   const [form] = Form.useForm<LoginParams>();
   const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = async (fields: LoginParams) => {
-        try {
-            await form.validateFields();
-            setIsLoading(true);
-            await signInWithEmailAndPassword(auth, fields.email, fields.password);
-      
-            navigate("/dashboard");
-          } catch (error: any) {
-            console.error("Erro ao fazer login:", error)
-            if (error.code === 'auth/invalid-credential') {
-              notification.error({
-                message: 'Erro ao fazer login',
-                description: 'E-mail ou senha inválidos.',
-              });
-            } else if (error.code === 'auth/too-many-requests') {
-              notification.error({
-                message: 'Erro ao fazer login',
-                description: "Foram feitas muitas tentativas de login. Recupere sua senha clicando em 'Esqueci minha senha' ou tente novamente mais tarde.",
-              });
-            } else {
-              notification.error({
-                message: 'Erro ao fazer login',
-                description: "Tente novamente mais tarde.",
-              });
-            }
-      
-          } finally {
-            setIsLoading(false);
+  const onSubmit = async (fields: LoginParams) => {
+      try {
+          await form.validateFields();
+          setIsLoading(true);
+          await signInWithEmailAndPassword(auth, fields.email, fields.password);
+    
+          navigate("/dashboard");
+        } catch (error: any) {
+          console.error("Erro ao fazer login:", error)
+          if (error.code === 'auth/invalid-credential') {
+            notification.error({
+              message: 'Erro ao fazer login',
+              description: 'E-mail ou senha inválidos.',
+            });
+          } else if (error.code === 'auth/too-many-requests') {
+            notification.error({
+              message: 'Erro ao fazer login',
+              description: "Foram feitas muitas tentativas de login. Recupere sua senha clicando em 'Esqueci minha senha' ou tente novamente mais tarde.",
+            });
+          } else {
+            notification.error({
+              message: 'Erro ao fazer login',
+              description: "Tente novamente mais tarde.",
+            });
           }
+    
+        } finally {
+          setIsLoading(false);
+        }
     }
 
     return (

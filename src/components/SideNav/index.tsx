@@ -56,35 +56,35 @@ export default function SideNav () {
         },
     ]
     return (
-        <div className="bg-primary flex align-center flex-col h-full p-3">
+        <div className="flex bg-primary flex-col h-full p-3 justify-between">
+            <div className="w-full flex flex-col gap-4">
                 <Image src={"/assets/logotipo-frisa.png"} width={200} preview={false} />
-                <div className="w-full h-[80%] flex flex-col gap-4">
-                {menuItems.map(item => {
+                {menuItems.map((item, index) => {
                     return (
-                        <div className="flex cursor-pointer text-white" onClick={() => item.action}>
+                        <div className="flex cursor-pointer text-white" onClick={() => item.action} key={index}>
                             <item.Icon />
                             <span className="w-[80%] m-2">{item.label}</span>
                             <RightOutlined className="text-sm"/>
-                         </div>
+                            </div>
                     )
                 })}
-                </div>
-                <div className="flex text-white flex-col w-full">
-                    <div className="flex mb-2">
-                        <div className="w-[150px]">
-                            <Avatar size="small" icon={<UserOutlined/>} className="mr-2"></Avatar>
-                            <span>{user?.name.split(' ')[0]}</span>
-                        </div>
-                        <div className="cursor-pointer text-gray-900" onClick={() => handleLogOut()}>
-                            <span className="mr-2">Sair</span>
-                            <LogoutOutlined/>
-                        </div>
+            </div>
+            <div className="flex text-white flex-col w-full">
+                <div className="flex mb-2">
+                    <div className="w-[150px]">
+                        <Avatar size="small" icon={<UserOutlined/>} className="mr-2"></Avatar>
+                        <span>{user?.name.split(' ')[0]}</span>
                     </div>
-                    <div style={{ display: 'flex'}}>
-                        <div className={`h-4 w-4 rounded-full self-center ml-1 mr-2 ${isOnline ? 'bg-green-700' : 'bg-[#0000004d]'}`}/>
-                        <span>{isOnline ? 'Online' : 'Offline'}</span>
+                    <div className="cursor-pointer text-gray-900" onClick={() => handleLogOut()}>
+                        <span className="mr-2">Sair</span>
+                        <LogoutOutlined/>
                     </div>
                 </div>
+                <div style={{ display: 'flex'}}>
+                    <div className={`h-4 w-4 rounded-full self-center ml-1 mr-2 ${isOnline ? 'bg-green-700' : 'bg-[#0000004d]'}`}/>
+                    <span>{isOnline ? 'Online' : 'Offline'}</span>
+                </div>
+            </div>
         </div>
     )
 }
