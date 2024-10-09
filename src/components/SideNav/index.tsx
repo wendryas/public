@@ -28,6 +28,20 @@ export default function SideNav () {
         navigate('/login')
     }
 
+    const checkOnlineStatus = async () => {
+        try {
+            const online = await fetch("google.com");
+            return online.status >= 200 && online.status < 300;
+        } catch (err) {
+            return false;
+        }
+    };
+
+    setInterval(async () => {
+        const result = await checkOnlineStatus();
+        setIsOnline(result)
+    }, 30000); 
+
     const menuItems = [
         {
             Icon: HomeFilled,
