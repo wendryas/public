@@ -53,6 +53,7 @@ const useAuthStore = create(
               name: credential.user.displayName as string,
               email: credential.user.email as string,
               password: credential.user.uid,
+              avatar: undefined
             };
             const { id } = await createUser(userData);
             return { ...userData, id };

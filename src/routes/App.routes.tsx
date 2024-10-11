@@ -26,7 +26,8 @@ export function AppRoutes() {
             const currUser = {
               id: user.uid,
               name: user.displayName,
-              email: user.email
+              email: user.email,
+              avatar: undefined
             };
             await createUser(currUser);
             setUser(currUser);

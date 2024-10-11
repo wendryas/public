@@ -1,4 +1,4 @@
-import { Image, Avatar } from "antd";
+import { Image } from "antd";
 import {
     HomeFilled,
     RightOutlined,
@@ -6,21 +6,22 @@ import {
     BarsOutlined,
     BarChartOutlined,
     FormOutlined,
-    UserOutlined,
     LogoutOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { auth } from "src/config/firebase";
 import { useEffect, useState } from "react";
-import useUserStore from "src/stores/user";
+import UserAvatar from "./UserAvatar";
 
 export default function SideNav () {
     const navigate = useNavigate()
     const [isOnline, setIsOnline] = useState(false)
-    const { user } = useUserStore()
 
     useEffect(() => {
-        setIsOnline(true)
+        setInterval(async () => {
+            const result = await checkOnlineStatus();
+            setIsOnline(result)
+        }, 30000); 
     }, [])
 
     function handleLogOut() {
@@ -36,11 +37,6 @@ export default function SideNav () {
             return false;
         }
     };
-
-    setInterval(async () => {
-        const result = await checkOnlineStatus();
-        setIsOnline(result)
-    }, 30000); 
 
     const menuItems = [
         {
@@ -69,6 +65,7 @@ export default function SideNav () {
             action: () => console.log('notificacao')
         },
     ]
+
     return (
         <div className="flex bg-primary flex-col h-full p-3 justify-between">
             <div className="w-full flex flex-col gap-4">
@@ -84,11 +81,8 @@ export default function SideNav () {
                 })}
             </div>
             <div className="flex text-white flex-col w-full">
-                <div className="flex mb-2">
-                    <div className="w-[150px]">
-                        <Avatar size="small" icon={<UserOutlined/>} className="mr-2"></Avatar>
-                        <span>{user?.name.split(' ')[0]}</span>
-                    </div>
+                <div className="flex mb-2 justify-between">
+                    <UserAvatar />
                     <div className="cursor-pointer text-gray-900" onClick={() => handleLogOut()}>
                         <span className="mr-2">Sair</span>
                         <LogoutOutlined/>
