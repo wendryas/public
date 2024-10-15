@@ -6,11 +6,12 @@ import {
   addDoc,
   query,
   where,
-  getDocs
+  getDocs,
+  updateDoc
 } from "firebase/firestore";
 import { User } from "src/types/user";
 
-const collectionName = "users";
+const collectionName = "frisa/users";
 
 export function createUser(data: Omit<User, "id">) {
   return addDoc(collection(db, collectionName), data);
@@ -33,4 +34,14 @@ export async function getUserById(id: string) {
   if (snapshot.exists()) return snapshot.data() as User;
 
   return null;
+}
+
+export async function updateUser({ ...props }: User) {
+  const docToUpdateRef = doc(db, `${collectionName}/${props.id}`)
+
+  await updateDoc(docToUpdateRef, props);
+
+  console.log("User updated successfully");
+
+  return;
 }
