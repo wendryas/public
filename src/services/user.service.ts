@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { IUser } from "../types/user";
 
-const collectionName = "frisa";
+const collectionName = "company/frisa/users";
 const collection = dbCol(db, collectionName);
 
 export function createUser(data: Omit<IUser, "id">) {

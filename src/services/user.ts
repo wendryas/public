@@ -12,30 +12,7 @@ import {
 } from "firebase/firestore";
 import { User } from "src/types/user";
 
-const collectionName = "frisa/users";
-
-export async function addUserToCollection(
-  name: string | null,
-  email: string | null,
-  uid: string
-) {
-  try {
-    const userDocRef = doc(firestore, collectionName, uid);
-
-    const userData = {
-      name,
-      email,
-      createdAt: new Date(),
-    };
-
-    await setDoc(userDocRef, userData);
-
-    console.log(`User ${name} added to collection ${collectionName}`);
-  } catch (error) {
-    console.error("Error adding user to collection:", error);
-    alert("Error adding user to collection. Check console for details.");
-  }
-}
+const collectionName = "company/frisa/users";
 
 export async function getUser(userId: string) {
   const docRef = doc(db, collectionName, userId);
@@ -54,7 +31,7 @@ export async function createUser(user: User) {
       id: user.id,
       name: user.name,
       email: user.email,
-      avatar: undefined,
+      avatar: {},
       createdAt: new Date(),
     };
     const result = await setDoc(docRef, data);
@@ -65,7 +42,7 @@ export async function createUser(user: User) {
 }
 
 export async function checkUserExists(email: string) {
-  const usersRef = collection(db, "users");
+  const usersRef = collection(db, "company/frisa/users");
   const q = query(usersRef, where("email", "==", email));
   const querySnapshot = await getDocs(q);
 

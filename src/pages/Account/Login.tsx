@@ -19,7 +19,6 @@ export default function Login () {
     
           navigate("/dashboard");
         } catch (error: any) {
-          console.error("Erro ao fazer login:", error)
           if (error.code === 'auth/invalid-credential') {
             notification.error({
               message: 'Erro ao fazer login',
@@ -35,6 +34,7 @@ export default function Login () {
               message: 'Erro ao fazer login',
               description: "Tente novamente mais tarde.",
             });
+            console.error("Erro ao fazer login:", error)
           }
     
         } finally {
