@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Route, Routes } from "react-router-dom";
 import { auth } from "src/config/firebase";
 import useUserStore from "src/stores/user";
-import { getUserByEmail, createUser } from "src/services/user";
+import { checkUserExists, createUser } from "src/services/user";
 import { User } from "src/types/user";
 
 export function AppRoutes() {
@@ -18,7 +18,7 @@ export function AppRoutes() {
     if (user) {
       intervalId = setInterval(async () => {
         if (user.displayName && user.email) {
-          const existingUser = await getUserByEmail(user.email);
+          const existingUser = await checkUserExists(user.email);
 
           if (existingUser) {
             setUser(existingUser as User);

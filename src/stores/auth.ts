@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { auth, login, LoginParams, getOAuthRedirect } from "src/firebase/auth";
-import { createUser, getUserByEmail } from "src/services/user";
-import { User } from "src/types/user";
+import { auth, login, LoginParams, getOAuthRedirect } from "../firebase/auth";
+import { createUser, getUserByEmail } from "src/services/user.service";
+import { IUser } from "src/types/user";
 
 export interface AuthState {
-  user: User | null;
+  user: IUser | null;
   checkAuthState: () => void;
-  login: (params: LoginParams) => Promise<User>;
+  login: (params: LoginParams) => Promise<IUser>;
   watchOAuth: () => Promise<boolean>;
-  register: (params: Omit<User, "id">) => Promise<User>;
+  register: (params: Omit<IUser, "id">) => Promise<IUser>;
   logout: () => Promise<void>;
 }
 
@@ -23,7 +23,7 @@ const useAuthStore = create(
           if (user) {
             const dbUser = (await getUserByEmail(
               user.email as string
-            )) as User;
+            )) as IUser;
             set({ user: dbUser });
           } else {
             set({ user: null });
@@ -31,7 +31,7 @@ const useAuthStore = create(
         });
       },
 
-      register: async (data: Omit<User, "id">) => {
+      register: async (data: Omit<IUser, "id">) => {
         const userWithEmail = await getUserByEmail(data.email);
         if (userWithEmail)
           throw new Error("Ja existe um usuário com este e-mail");
@@ -53,7 +53,6 @@ const useAuthStore = create(
               name: credential.user.displayName as string,
               email: credential.user.email as string,
               password: credential.user.uid,
-              avatar: undefined
             };
             const { id } = await createUser(userData);
             return { ...userData, id };
@@ -70,7 +69,7 @@ const useAuthStore = create(
       login: async ({ email, password }: LoginParams) => {
         const [, dbUser] = await Promise.all([
           login({ email, password }),
-          getUserByEmail(email) as Promise<User>,
+          getUserByEmail(email) as Promise<IUser>,
         ]);
 
         const user = dbUser;

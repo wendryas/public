@@ -1,39 +1,79 @@
 import db from "src/firebase/firestore";
+import firestore from "src/firebase/firestore";
 import {
   collection,
   getDoc,
   doc,
-  addDoc,
   query,
   where,
   getDocs,
-  updateDoc
+  updateDoc,
+  setDoc
 } from "firebase/firestore";
 import { User } from "src/types/user";
 
 const collectionName = "frisa/users";
 
-export function createUser(data: Omit<User, "id">) {
-  return addDoc(collection(db, collectionName), data);
+export async function addUserToCollection(
+  name: string | null,
+  email: string | null,
+  uid: string
+) {
+  try {
+    const userDocRef = doc(firestore, collectionName, uid);
+
+    const userData = {
+      name,
+      email,
+      createdAt: new Date(),
+    };
+
+    await setDoc(userDocRef, userData);
+
+    console.log(`User ${name} added to collection ${collectionName}`);
+  } catch (error) {
+    console.error("Error adding user to collection:", error);
+    alert("Error adding user to collection. Check console for details.");
+  }
 }
 
-export async function getUserByEmail(email: string) {
-  const q = query(collection(db, collectionName), where("email", "==", email));
-  const snapshot = await getDocs(q);
-
-  const [doc] = snapshot.docs;
-  if (doc && doc.exists()) return doc.data() as User;
-
-  return null;
+export async function getUser(userId: string) {
+  const docRef = doc(db, collectionName, userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    return undefined;
+  }
 }
 
-export async function getUserById(id: string) {
-  const ref = doc(db, collectionName, id);
-  const snapshot = await getDoc(ref);
+export async function createUser(user: User) {
+  try {
+    const docRef = doc(firestore, collectionName, user.id);
+    const data = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar: undefined,
+      createdAt: new Date(),
+    };
+    const result = await setDoc(docRef, data);
+    return result;
+  } catch (error) {
+    console.log("error", error);
+  }
+}
 
-  if (snapshot.exists()) return snapshot.data() as User;
+export async function checkUserExists(email: string) {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
 
-  return null;
+  if (!querySnapshot.empty) {
+    return querySnapshot.docs[0].data();
+  } else {
+    return null;
+  }
 }
 
 export async function updateUser({ ...props }: User) {
