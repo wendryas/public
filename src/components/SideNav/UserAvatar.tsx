@@ -80,7 +80,7 @@ export default function UserAvatar () {
         <>
           <Dropdown menu={{ items }} arrow>
             <div>
-              <Avatar size="small" icon={<UserOutlined/>} className="mr-2"></Avatar>
+              <Avatar size="small" icon={ user?.upload?.name ? '' : <UserOutlined/>} src={user?.upload?.name ? <img src={user.upload.thumbUrl} /> : ''} className="mr-2"></Avatar>
               <span>{user?.name.split(' ')[0]}</span>
             </div>
           </Dropdown>
