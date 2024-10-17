@@ -50,6 +50,11 @@ export default function UserAvatar () {
       if (user?.id) {
         const userData = {
           ...fields,
+          upload: fields.upload ? fields.upload : {
+            name: '',
+            uid: '',
+            thumbUrl: ''
+          },
           id: user.id
         }
         await updateUser(userData)
