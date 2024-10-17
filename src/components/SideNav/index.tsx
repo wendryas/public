@@ -12,10 +12,12 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "src/config/firebase";
 import { useEffect, useState } from "react";
 import UserAvatar from "./UserAvatar";
+import useUserStore from "src/stores/user";
 
 export default function SideNav () {
     const navigate = useNavigate()
     const [isOnline, setIsOnline] = useState(false)
+    const { setUser } = useUserStore()
 
     useEffect(() => {
         setInterval(async () => {
@@ -26,6 +28,7 @@ export default function SideNav () {
 
     function handleLogOut() {
         auth.signOut();
+        setUser(null)
         navigate('/login')
     }
 

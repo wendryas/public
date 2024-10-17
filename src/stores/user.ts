@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 
 export interface UserState {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
 }
 
 const useUserStore = create(
@@ -12,7 +12,7 @@ const useUserStore = create(
     (set) => ({
       user: null,
 
-      setUser: async (user: User) => {
+      setUser: async (user: User | null) => {
         set({ user });
         return user;
       },
