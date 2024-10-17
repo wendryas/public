@@ -31,7 +31,11 @@ export async function createUser(user: User) {
       id: user.id,
       name: user.name,
       email: user.email,
-      avatar: {},
+      profilePicture: { 
+        name: '',
+        uid: '',
+        thumbUrl: ''
+      },
       createdAt: new Date(),
     };
     const result = await setDoc(docRef, data);

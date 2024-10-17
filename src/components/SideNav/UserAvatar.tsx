@@ -7,7 +7,7 @@ import { User } from "src/types/user"
 import { updateUser } from "src/services/user"
 
 export default function UserAvatar () {
-  const { user } = useUserStore()
+  const { user, setUser } = useUserStore()
   const [modalUser, setModalUser] = useState(false);
   const [modalPassword, setModalPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,9 +38,10 @@ export default function UserAvatar () {
 
   useEffect(() => {
     form.setFieldsValue({
-      name: user?.name
+      name: user?.name,
+      profilePicture: user?.profilePicture
+    })
   })
-  }, [])
 
   const handleSubmit = async (fields: User) => {
     console.log('here', fields)
@@ -49,10 +50,17 @@ export default function UserAvatar () {
       await form.validateFields();
       setLoading(true);
       if (user?.id) {
-        await updateUser({
-            ...fields,
-            id: user?.id
-        })
+        const userData = {
+          ...fields,
+          profilePicture: {
+            name: fields.profilePicture?.name || '',
+            uid: fields.profilePicture?.uid || '',
+            thumbUrl: fields.profilePicture?.thumbUrl || ''
+          },
+          id: user?.id
+        }
+        await updateUser(userData)
+        setUser(userData)
       }
     } catch(error) {
       console.log("Erro ao editar perfil", error);
@@ -78,12 +86,16 @@ export default function UserAvatar () {
               <span>{user?.name.split(' ')[0]}</span>
             </div>
           </Dropdown>
-          <Modal open={modalUser} onCancel={() => setModalUser(false)} cancelText={'Cancelar'} okText={'Salvar'} onOk={() => handleSubmit(form.getFieldsValue())}>
+          <Modal
+          open={modalUser}
+          onCancel={() => setModalUser(false)}
+          cancelText={'Cancelar'}
+          okText={'Salvar'}
+          onOk={() => handleSubmit(form.getFieldsValue())}
+          >
           <p className="text-primary font-bold text-lg border-b-2 border-primary mb-5">Editar Perfil</p>
-            <div className="flex">
-              <UploadComponent component={user?.avatar} />
               <Form
-              className="w-full"
+              layout="vertical"
               form={form}
               onFinish={handleSubmit}>
                 <Form.Item
@@ -92,8 +104,13 @@ export default function UserAvatar () {
                 rules={[{ required: true, message: 'Esse campo é obrigatório!' }]}>
                   <Input className="w-full"/>
                 </Form.Item>
+                <Form.Item
+                className="h-full"
+                label="Foto de Perfil"
+                name="profilePicture">
+                  <UploadComponent component={user?.profilePicture} />
+                </Form.Item>
               </Form>
-            </div>
           </Modal>
           <Modal open={modalPassword} onCancel={() => setModalPassword(false)} onOk={submitModalPassword}>
             <div>Senha</div>

@@ -27,7 +27,11 @@ export function AppRoutes() {
               id: user.uid,
               name: user.displayName,
               email: user.email,
-              avatar: undefined
+              profilePicture: {
+                name: '',
+                uid: '',
+                thumbUrl: ''
+              }
             };
             await createUser(currUser);
             setUser(currUser);
@@ -45,7 +49,7 @@ export function AppRoutes() {
         clearInterval(intervalId);
       }
     };
-  }, [user]);
+  }, [user, setUser]);
 
   return (
     <Routes>

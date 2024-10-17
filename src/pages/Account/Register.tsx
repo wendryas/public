@@ -11,7 +11,7 @@ interface RegisterForm {
     email: string;
     password: string;
     passwordConfirmation: string;
-  }
+}
 
 export default function Register () {
     const [isLoading, setIsLoading] = useState(false);
