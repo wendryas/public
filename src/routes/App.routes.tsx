@@ -27,7 +27,7 @@ export function AppRoutes() {
               id: user.uid,
               name: user.displayName,
               email: user.email,
-              profilePicture: {
+              upload: {
                 name: '',
                 uid: '',
                 thumbUrl: ''

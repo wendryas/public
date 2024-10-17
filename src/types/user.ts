@@ -10,5 +10,5 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  profilePicture: UploadType | undefined;
+  upload: UploadType | undefined;
 }

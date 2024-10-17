@@ -38,13 +38,11 @@ export default function UserAvatar () {
 
   useEffect(() => {
     form.setFieldsValue({
-      name: user?.name,
-      profilePicture: user?.profilePicture
+      name: user?.name
     })
   })
 
   const handleSubmit = async (fields: User) => {
-    console.log('here', fields)
     try {
       form.submit();
       await form.validateFields();
@@ -52,18 +50,13 @@ export default function UserAvatar () {
       if (user?.id) {
         const userData = {
           ...fields,
-          profilePicture: {
-            name: fields.profilePicture?.name || '',
-            uid: fields.profilePicture?.uid || '',
-            thumbUrl: fields.profilePicture?.thumbUrl || ''
-          },
-          id: user?.id
+          id: user.id
         }
         await updateUser(userData)
         setUser(userData)
       }
     } catch(error) {
-      console.log("Erro ao editar perfil", error);
+      console.log("Erro:", error);
       notification.error({
         message: 'Erro ao editar perfil',
         description: 'Tente novamente mais tarde',
@@ -95,20 +88,16 @@ export default function UserAvatar () {
           >
           <p className="text-primary font-bold text-lg border-b-2 border-primary mb-5">Editar Perfil</p>
               <Form
-              layout="vertical"
-              form={form}
-              onFinish={handleSubmit}>
+              className="flex"
+              form={form}>
+                <UploadComponent form={form} component={user?.upload} label=""/>
                 <Form.Item
-                label="Nome"
+                className="w-full"
+                layout="vertical"
+                label="Nome:"
                 name="name"
                 rules={[{ required: true, message: 'Esse campo é obrigatório!' }]}>
-                  <Input className="w-full"/>
-                </Form.Item>
-                <Form.Item
-                className="h-full"
-                label="Foto de Perfil"
-                name="profilePicture">
-                  <UploadComponent component={user?.profilePicture} />
+                  <Input />
                 </Form.Item>
               </Form>
           </Modal>

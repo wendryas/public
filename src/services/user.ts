@@ -31,7 +31,7 @@ export async function createUser(user: User) {
       id: user.id,
       name: user.name,
       email: user.email,
-      profilePicture: { 
+      upload: { 
         name: '',
         uid: '',
         thumbUrl: ''
