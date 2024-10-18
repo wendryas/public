@@ -6,7 +6,10 @@ import {
   sendPasswordResetEmail,
   verifyPasswordResetCode,
   confirmPasswordReset,
-  getRedirectResult
+  getRedirectResult,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider
 } from "firebase/auth";
 
 interface EmailPasswordAuthParams {
@@ -41,4 +44,23 @@ export function verifyPassworRecoveryCode(code: string) {
 
 export function resetPassword(code: string, newPassword: string) {
   return confirmPasswordReset(auth, code, newPassword);
+}
+
+export async function changePassword(fields: any) {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      const credential = EmailAuthProvider.credential(
+        user.email || '',
+        fields.currPassword
+      )
+      await reauthenticateWithCredential(
+          user,
+          credential
+      )
+      await updatePassword(user, fields.newPassword);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
